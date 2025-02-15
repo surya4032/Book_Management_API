@@ -1,0 +1,67 @@
+def simple_view(request):
+    if request.method == 'GET':
+        return JsonResponse({'message': 'Request received'}, status=200)
+    
+    return HttpResponseBadRequest()
+@csrf_exempt
+
+# def book_list(request):
+#     if request.method == 'GET':
+#         books = Book.objects.all()
+#         book_list = [model_to_dict(book) for book in books]
+#         return JsonResponse(book_list, status=200, safe=False)
+    
+#     if request.method == 'POST':
+#         try:
+#             title=request.POST.get("Title") 
+#             author=request.POST.get("author")
+#             price=request.POST.get("Price")
+#             inventory=request.POST.get("Inventory")
+#             book = Book(Title=title, author=author, Price=price, Inventory=inventory)
+#             book.save() # ensures Book instance is saved to database
+#             return JsonResponse(model_to_dict(book), status=201)
+#         except Exception as e:
+#             return JsonResponse({'message':"required fields missing"}, status=400)
+    
+#     return HttpResponseBadRequest()
+# @csrf_exempt
+# def book_detail(request,pk):
+#     if request.method == 'GET':
+#         try:
+        
+#             #how  to get the book id from the url
+            
+#             book = Book.objects.get(id=pk)
+#             return JsonResponse(model_to_dict(book), status=200)
+#         except Exception as e:
+#             return JsonResponse({'error': "book is not found"}, status=404)
+        
+
+#     elif request.method=='PUT':
+        
+            
+#         request_body=QueryDict(request.body)
+#         try:
+#             book=Book.objects.get(id=pk)
+#             book.Title=request_body.get("Title",book.Title)# if no value is given it assumes the default value otherwise it updates
+#             book.author=request_body.get("author",book.author)
+#             book.Price=request_body.get("Price",book.Price)
+#             book.Inventory=request_body.get("Inventory",book.Inventory)
+#             book.save()
+#             return JsonResponse({'message':'book updated sucessfully'},status=204)
+#         except Exception as e:
+#             return JsonResponse({'error':str(e)},status=400)
+#     elif request.method=='DELETE':
+            
+#             try:
+#                 book=Book.objects.get(id=pk)
+#                 book.delete()
+#                 return JsonResponse({'message':'Book is deleted'},status=204)
+#             except Exception:
+#                 return JsonResponse({'message':'Book not found'},status=404) 
+            
+            
+            
+            
+            
+#     return JsonResponse({'error':"Invalid request method"},status=405)
