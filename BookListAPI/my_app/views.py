@@ -37,8 +37,9 @@ class BookList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class BookDetails(APIView):
+    
     def get(self,request,pk):
-        logging.debug(f"Fetching book with id: {pk}")
+        logging.debug(f"GET request for book with id: {pk}")
         try:
             book = Book.objects.get(id=pk)
             logging.debug(f"Book found: {book}")
@@ -52,10 +53,10 @@ class BookDetails(APIView):
             return Response({"error": "Server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def put(self, request, pk):
-        logging.debug(f"Updating book with id: {pk}")
+        logging.debug(f"PUT request for book with id: {pk}")
         try:
             book = Book.objects.get(id=pk)
-            data = QueryDict(request.body).dict()
+            data = request.data
             serializer = BookSerializer(book, data=data, partial=True)
             if serializer.is_valid():
                 serializer.save()
@@ -67,7 +68,18 @@ class BookDetails(APIView):
         except Exception as e:
             logging.error(f"Error updating book with id {pk}: {e}")
             return Response({"error": "Server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
+    def delete(self,pk):
+        try:
+            book=Book.objects.get(id=pk)
+            book.delete()
+            return Response({"message":"Book deleted Sucessfullly"},status=status.HTTP_204_NO_CONTENT)
+        except Book.DoesNotExist:
+            logging.error(f"Book with id {pk} not found")
+            return Response({"error":"Book not found"},status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+             logging.error(f"Error deleting book with id {pk}: {e}")
+             return Response({"error": "Server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
 

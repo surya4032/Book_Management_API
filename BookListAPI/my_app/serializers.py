@@ -7,7 +7,7 @@ class BookSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def validate(self, data):
-        if data['Price'] <= 0:
+        if data['Price'] <= 0:        
             raise serializers.ValidationError("Price must be greater than zero.")
         if data['Inventory'] < 0:
             raise serializers.ValidationError("Inventory cannot be negative.")
