@@ -47,8 +47,9 @@ The Book Management API is a Django REST Framework (DRF) based API for managing 
    
 
 5. Run the development server:
-   bash
+   ```bash
    python manage.py runserver
+   ```
    
 
 ## Usage
